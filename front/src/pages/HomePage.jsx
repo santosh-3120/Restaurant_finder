@@ -16,7 +16,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchInitialRestaurants = async () => {
       try {
-        const response = await fetch(`/api/restaurants?page=${page}&limit=${limit}`);
+        const response = await fetch(`https://restaurant-finder-foxg.onrender.com/api/restaurants?page=${page}&limit=${limit}`);
         if (!response.ok) throw new Error('Failed to fetch initial restaurants');
 
         const data = await response.json();
@@ -35,7 +35,7 @@ const HomePage = () => {
 
   const handleSearch = async (query) => {
     try {
-      const response = await fetch(`/api/restaurants/search?search=${query}`);
+      const response = await fetch(`https://restaurant-finder-foxg.onrender.com/api/restaurants/search?search=${query}`);
       if (!response.ok) throw new Error('Failed to fetch search results');
 
       const data = await response.json();
@@ -57,7 +57,7 @@ const HomePage = () => {
       if (price_range) queryParams.append('price_range', price_range);
       if (cuisines) queryParams.append('cuisines', cuisines);
 
-      const url = `/api/restaurants/filter?${queryParams.toString()}`;
+      const url = `https://restaurant-finder-foxg.onrender.com/api/restaurants/filter?${queryParams.toString()}`;
       console.log('Filter API URL:', url);
 
       const response = await fetch(url);
@@ -75,7 +75,7 @@ const HomePage = () => {
 
   const handleLocationSearch = async (latitude, longitude, distance = 3) => {
     try {
-      const response = await fetch(`/api/restaurants/location?latitude=${latitude}&longitude=${longitude}&distance=${distance}`);
+      const response = await fetch(`https://restaurant-finder-foxg.onrender.com/api/restaurants/location?latitude=${latitude}&longitude=${longitude}&distance=${distance}`);
       if (!response.ok) throw new Error('Failed to fetch location-based search results');
 
       const data = await response.json();

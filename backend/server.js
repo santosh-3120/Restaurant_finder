@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 // Middleware for CORS
-app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from your frontend origin
+app.use(cors()); // Allow requests from your frontend origin
 
 // Routes
 app.use(restaurantRoutes);

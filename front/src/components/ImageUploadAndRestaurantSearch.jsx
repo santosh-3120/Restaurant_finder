@@ -17,7 +17,7 @@ const ImageUploadAndRestaurantSearch = () => {
     formData.append('image', imageFile);
 
     try {
-      const response = await fetch('/upload', {  // Your API endpoint
+      const response = await fetch('https://restaurant-finder-foxg.onrender.com/upload/upload', {  // Your API endpoint
         method: 'POST',
         body: formData,
       });
