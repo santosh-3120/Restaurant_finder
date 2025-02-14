@@ -12,7 +12,6 @@ const ImageUploadAndRestaurantSearch = () => {
 
     setLoading(true);
     setError(null);
-
     const formData = new FormData();
     formData.append('image', imageFile);
 
