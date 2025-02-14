@@ -10,20 +10,25 @@ const {
     upload // Multer middleware
 } = require('../controllers/RestaurantController');
 
+
+
+// ✅ Filter by Country, Price Range, and Cuisines
+router.get('/api/restaurants/filter', filterRestaurants);
 // ✅ Get all restaurants with pagination
 router.get('/api/restaurants', getAllRestaurants);
 
-// ✅ Get restaurant by ID
-router.get('/api/restaurants/:id', getRestaurantById);
-
-// ✅ Search by Name or Cuisine
-router.get('/api/restaurants/search', searchRestaurants);
 
 // ✅ Search by Location
 router.get('/api/restaurants/location', searchByLocation);
 
-// ✅ Filter by Country, Price Range, and Cuisines
-router.get('/api/restaurants/filter', filterRestaurants);
+
+// ✅ Search by Name or Cuisine
+router.get('/api/restaurants/search', searchRestaurants);
+
+// ✅ Get restaurant by ID
+router.get('/api/restaurants/:id', getRestaurantById);
+
+
 
 // ✅ Image-Based Restaurant Search
 router.post('/upload', upload.single('image'), async (req, res) => {

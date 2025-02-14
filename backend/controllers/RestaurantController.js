@@ -98,7 +98,7 @@ const searchByLocation = async (req, res) => {
     try {
         const longitude = parseFloat(req.query.longitude);
         const latitude = parseFloat(req.query.latitude);
-        const distanceInKilometers = parseFloat(req.query.distance) || 3;
+        const distanceInKilometers = parseFloat(req.query.distance)/6378.1 || 3;
         const maxDistanceInMeters = distanceInKilometers * 1000;
 
         if (isNaN(longitude) || isNaN(latitude)) {
@@ -107,19 +107,20 @@ const searchByLocation = async (req, res) => {
 
         const restaurants = await RestaurantCollection.aggregate([
             {
-                $geoNear: {
-                    near: { type: "Point", coordinates: [longitude, latitude] },
-                    distanceField: "distance",
-                    maxDistance: maxDistanceInMeters,
-                    spherical: true,
-                },
-            },
+                $match: {
+                    "restaurant.location.coordinates": {
+                        $geoWithin: {
+                            $centerSphere: [[longitude, latitude], distanceInKilometers]
+                        }
+                    }
+                }
+            }
         ]).toArray();
-
+        console.log(restaurants)
         // Formatting response to match `searchRestaurants`
         const formattedRestaurants = restaurants.map((restaurant) => ({
             restaurant: {
-                R: { res_id: restaurant.restaurant.R.res_id },
+                R: { id: restaurant.restaurant.id },
                 name: restaurant.restaurant.name,
                 cuisines: restaurant.restaurant.cuisines,
                 featured_image: restaurant.restaurant.featured_image,
@@ -168,7 +169,7 @@ const filterRestaurants = async (req, res) => {
         if (cuisines) query["restaurant.cuisines"] = { $regex: cuisines, $options: "i" };
 
         const restaurants = await RestaurantCollection.find(query).toArray();
-
+        
         // Formatting response to match `searchRestaurants`
         const formattedRestaurants = restaurants.map((restaurant) => ({
             restaurant: {
